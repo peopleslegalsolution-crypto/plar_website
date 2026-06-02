@@ -1877,7 +1877,7 @@ body {
 .site-nav {
   flex: 1 1 auto;
   justify-content: center;
-  gap: clamp(18px, 2.4vw, 34px);
+  gap: clamp(12px, 1.6vw, 26px);
 }
 
 .site-nav a {
@@ -1885,7 +1885,7 @@ body {
   color: var(--text);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -2121,7 +2121,7 @@ h3 {
 h1 {
   max-width: 900px;
   margin: 0 auto 28px;
-  font-size: clamp(58px, 8.8vw, 126px);
+  font-size: clamp(54px, 7.4vw, 106px);
   line-height: 1;
 }
 
@@ -2502,6 +2502,44 @@ body[data-theme="bright"] .form-status {
 
   .site-nav.is-open {
     display: grid;
+  }
+}
+
+@media (max-width: 1440px) {
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: 92px;
+    left: 0;
+    right: 0;
+    display: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 28px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--surface);
+    box-shadow: 0 28px 70px var(--shadow);
+  }
+
+  .site-nav.is-open {
+    display: grid;
+  }
+
+  .site-actions {
+    margin-left: auto;
+  }
+
+  .header-cta {
+    display: none;
   }
 }
 
