@@ -769,6 +769,7 @@
     const galleryPrev = document.querySelector("[data-gallery-prev]");
     const galleryNext = document.querySelector("[data-gallery-next]");
     const galleryProgress = document.querySelector(".gallery-rail span");
+    const sectionLinks = [...document.querySelectorAll(".site-nav a[href^=\"#\"]")];
     let activeHeroSlide = 0;
 
     function applyLanguage(lang) {
@@ -817,14 +818,23 @@
       });
     }
 
-    menuToggle.addEventListener("click", () => nav.classList.toggle("is-open"));
-    langToggle.addEventListener("click", () => {
+    menuToggle?.addEventListener("click", () => nav?.classList.toggle("is-open"));
+    sectionLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        nav?.classList.remove("is-open");
+        applyTheme(localStorage.getItem("plar-theme") || body.dataset.theme || "dark", false);
+      });
+    });
+    window.addEventListener("hashchange", () => {
+      applyTheme(localStorage.getItem("plar-theme") || body.dataset.theme || "dark", false);
+    });
+    langToggle?.addEventListener("click", () => {
       applyLanguage(body.dataset.lang === "ne" ? "en" : "ne");
     });
     themeToggle?.addEventListener("click", () => {
       applyTheme(body.dataset.theme === "dark" ? "light" : "dark");
     });
-    heroNext.addEventListener("click", () => showHeroSlide(activeHeroSlide + 1));
+    heroNext?.addEventListener("click", () => showHeroSlide(activeHeroSlide + 1));
     heroDots.forEach((dot, index) => {
       dot.addEventListener("click", () => showHeroSlide(index));
     });
