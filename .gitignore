@@ -1,0 +1,4 @@
+.env
+*.env
+data/database.json
+plar/
