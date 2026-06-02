@@ -3016,6 +3016,48 @@ body[data-theme="dark"] .lawyer-mini-card h2 {
   color: #e0c18a;
 }
 
+/* Final light-mode correction: Dark: Off should visibly leave the dark palette. */
+body[data-theme="light"] .site-header {
+  background: rgba(255, 248, 237, 0.9);
+  border-bottom-color: rgba(139, 106, 55, 0.34);
+  box-shadow: 0 14px 34px rgba(72, 43, 8, 0.12);
+}
+
+body[data-theme="light"] .hero {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.48), transparent 28%),
+    linear-gradient(135deg, #f7e8cf 0%, #d7b47f 55%, #b98b4b 100%);
+  box-shadow: 0 30px 80px rgba(72, 43, 8, 0.18);
+}
+
+body[data-theme="light"] .hero-shell {
+  background: #fff8ed;
+  box-shadow: 0 28px 70px rgba(72, 43, 8, 0.22);
+}
+
+body[data-theme="light"] .hero-scrim {
+  background:
+    linear-gradient(90deg, rgba(255, 248, 237, 0.92) 0%, rgba(255, 248, 237, 0.72) 45%, rgba(255, 248, 237, 0.9) 100%),
+    linear-gradient(0deg, rgba(247, 232, 207, 0.72), rgba(247, 232, 207, 0.34));
+}
+
+body[data-theme="light"] .hero-scrim::after {
+  background: linear-gradient(90deg, transparent 0 38%, rgba(255, 248, 237, 0.72) 58%, rgba(255, 248, 237, 0.92) 100%);
+}
+
+body[data-theme="light"] .hero-content h1,
+body[data-theme="light"] .hero-points {
+  color: #111111;
+}
+
+body[data-theme="light"] .hero-kicker,
+body[data-theme="light"] .site-header .brand-text,
+body[data-theme="light"] .site-header .site-nav a,
+body[data-theme="light"] .site-header .menu-toggle {
+  color: #7a4f13;
+  text-shadow: none;
+}
+
 /* Final polish: softened premium edges. */
 .theme-toggle,
 .language-toggle,
