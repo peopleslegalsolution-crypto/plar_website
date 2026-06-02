@@ -822,7 +822,7 @@
       applyLanguage(body.dataset.lang === "ne" ? "en" : "ne");
     });
     themeToggle?.addEventListener("click", () => {
-      applyTheme(body.dataset.theme === "dark" ? "light" : "dark", !previewMode);
+      applyTheme(body.dataset.theme === "dark" ? "light" : "dark");
     });
     heroNext.addEventListener("click", () => showHeroSlide(activeHeroSlide + 1));
     heroDots.forEach((dot, index) => {
