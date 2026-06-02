@@ -3116,3 +3116,34 @@ body[data-theme="light"] .site-header .menu-toggle {
     border-radius: 12px;
   }
 }
+
+/* Keep header controls above the hero art so the theme button remains clickable on every home section. */
+.site-header {
+  z-index: 10000;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+.site-actions {
+  position: relative;
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+.site-actions .theme-toggle,
+.site-actions .language-toggle,
+.site-actions .header-cta,
+.site-nav a,
+.brand,
+.menu-toggle {
+  position: relative;
+  z-index: 10002;
+  pointer-events: auto;
+}
+
+.hero-stage,
+.hero-stage::before,
+.hero-scrim,
+.hero-scrim::after {
+  pointer-events: none;
+}
