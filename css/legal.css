@@ -2553,7 +2553,7 @@ body[data-theme="bright"] .form-status {
     left: 14px;
     right: 14px;
     width: calc(100% - 28px);
-    padding: 14px;
+    padding: 10px 12px 12px;
     border: 1px solid hsla(38, 61%, 73%, 0.28);
     background: var(--navbar);
   }
@@ -2561,6 +2561,7 @@ body[data-theme="bright"] .form-status {
   .site-actions {
     width: 100%;
     justify-content: space-between;
+    gap: 8px;
   }
 
   .site-nav {
@@ -2575,20 +2576,31 @@ body[data-theme="bright"] .form-status {
   .theme-toggle {
     flex: 1 1 auto;
     min-width: 0;
-    padding-inline: 10px;
-    font-size: 12px;
+    min-height: 38px;
+    padding-inline: 8px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
     text-align: center;
     white-space: nowrap;
   }
 
   .brand-mark {
-    width: 68px;
-    height: 44px;
+    width: 58px;
+    height: 38px;
+  }
+
+  .brand-text {
+    font-size: 36px;
+  }
+
+  .menu-toggle {
+    min-height: 38px;
+    padding-inline: 4px;
   }
 
   .hero-content {
     min-height: 100vh;
-    padding: 132px 0 360px;
+    padding: 230px 0 330px;
   }
 
   h1 {
