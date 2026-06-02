@@ -2406,6 +2406,60 @@ body[data-theme="bright"] .secondary-button:hover {
   color: var(--text);
 }
 
+body[data-theme="light"] .consultation-home-grid,
+body[data-theme="light"] .tool-card,
+body[data-theme="light"] .records-card,
+body[data-theme="light"] .contact-card,
+body[data-theme="light"] .about-panel,
+body[data-theme="light"] .service-grid article,
+body[data-theme="light"] .gallery-library,
+body[data-theme="light"] .gallery-card,
+body[data-theme="bright"] .consultation-home-grid,
+body[data-theme="bright"] .tool-card,
+body[data-theme="bright"] .records-card,
+body[data-theme="bright"] .contact-card,
+body[data-theme="bright"] .about-panel,
+body[data-theme="bright"] .service-grid article,
+body[data-theme="bright"] .gallery-library,
+body[data-theme="bright"] .gallery-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.96)),
+    var(--panel);
+}
+
+body[data-theme="light"] .smart-form input,
+body[data-theme="light"] .smart-form select,
+body[data-theme="light"] .smart-form textarea,
+body[data-theme="bright"] .smart-form input,
+body[data-theme="bright"] .smart-form select,
+body[data-theme="bright"] .smart-form textarea {
+  border-color: rgba(143, 103, 19, 0.38);
+  background: #ffffff;
+  color: #111111;
+  -webkit-text-fill-color: #111111;
+  caret-color: #111111;
+}
+
+body[data-theme="dark"] .smart-form input,
+body[data-theme="dark"] .smart-form select,
+body[data-theme="dark"] .smart-form textarea {
+  background: #090909;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: var(--gold);
+}
+
+.smart-form input::placeholder,
+.smart-form textarea::placeholder {
+  color: color-mix(in srgb, currentColor 62%, transparent);
+  opacity: 1;
+}
+
+body[data-theme="light"] .form-status,
+body[data-theme="bright"] .form-status {
+  color: #5f430c;
+}
+
 .footer {
   width: 100%;
   margin: 0;
