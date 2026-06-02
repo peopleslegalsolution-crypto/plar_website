@@ -2,3 +2,4 @@
 *.env
 data/database.json
 plar/
+website/
