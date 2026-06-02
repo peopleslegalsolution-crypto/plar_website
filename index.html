@@ -29,11 +29,7 @@
       <a href="#contact" data-i18n="navContact">Contact Us</a>
     </nav>
     <div class="site-actions" aria-label="Display options">
-      <div class="segmented-control" role="group" aria-label="Theme">
-        <button type="button" class="mode-option is-active" data-theme-choice="dark" data-i18n="darkMode">Dark</button>
-        <button type="button" class="mode-option" data-theme-choice="light" data-i18n="lightMode">White</button>
-        <button type="button" class="mode-option" data-theme-choice="bright" data-i18n="brightMode">Bright</button>
-      </div>
+      <button type="button" class="theme-toggle" data-theme-toggle data-i18n="darkModeOn">Dark mode: On</button>
       <button type="button" class="language-toggle" data-lang-toggle data-i18n="languageButton">नेपाली</button>
       <a class="header-cta" href="consultation.html#booking" data-i18n="bookConsultation">Book Consultation</a>
     </div>
@@ -455,9 +451,8 @@
         navAbout: "About Us",
         navConsultation: "Consultation",
         navContact: "Contact Us",
-        darkMode: "Dark",
-        lightMode: "White",
-        brightMode: "Bright",
+        darkModeOn: "Dark mode: On",
+        darkModeOff: "Dark mode: Off",
         languageButton: "नेपाली",
         bookConsultation: "Book Consultation",
         heroKicker: "Your reliable legal ally for progress",
@@ -543,9 +538,8 @@
         navAbout: "हाम्रो बारेमा",
         navConsultation: "परामर्श",
         navContact: "सम्पर्क",
-        darkMode: "डार्क",
-        lightMode: "सेतो",
-        brightMode: "ब्राइट",
+        darkModeOn: "डार्क मोड: अन",
+        darkModeOff: "डार्क मोड: अफ",
         languageButton: "English",
         bookConsultation: "परामर्श बुक गर्नुहोस्",
         heroKicker: "प्रगतिका लागि तपाईंको विश्वसनीय कानुनी सहयात्री",
@@ -627,7 +621,7 @@
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".site-nav");
     const langToggle = document.querySelector("[data-lang-toggle]");
-    const themeButtons = document.querySelectorAll("[data-theme-choice]");
+    const themeToggle = document.querySelector("[data-theme-toggle]");
     const heroSlides = [...document.querySelectorAll(".hero-slide")];
     const heroDots = [...document.querySelectorAll(".hero-progress button")];
     const heroNext = document.querySelector(".hero-next");
@@ -651,14 +645,22 @@
       });
       body.dataset.lang = lang;
       localStorage.setItem("plar-language", lang);
+      updateThemeToggleText();
+    }
+
+    function updateThemeToggleText() {
+      if (!themeToggle) return;
+      const lang = body.dataset.lang || "en";
+      const key = body.dataset.theme === "dark" ? "darkModeOn" : "darkModeOff";
+      themeToggle.textContent = translations[lang][key];
     }
 
     function applyTheme(theme) {
-      body.dataset.theme = theme;
-      themeButtons.forEach((button) => {
-        button.classList.toggle("is-active", button.dataset.themeChoice === theme);
-      });
-      localStorage.setItem("plar-theme", theme);
+      const normalizedTheme = theme === "dark" ? "dark" : "light";
+      body.dataset.theme = normalizedTheme;
+      themeToggle?.classList.toggle("is-active", normalizedTheme === "dark");
+      localStorage.setItem("plar-theme", normalizedTheme);
+      updateThemeToggleText();
     }
 
     function showHeroSlide(index) {
@@ -675,8 +677,8 @@
     langToggle.addEventListener("click", () => {
       applyLanguage(body.dataset.lang === "ne" ? "en" : "ne");
     });
-    themeButtons.forEach((button) => {
-      button.addEventListener("click", () => applyTheme(button.dataset.themeChoice));
+    themeToggle?.addEventListener("click", () => {
+      applyTheme(body.dataset.theme === "dark" ? "light" : "dark");
     });
     heroNext.addEventListener("click", () => showHeroSlide(activeHeroSlide + 1));
     heroDots.forEach((dot, index) => {

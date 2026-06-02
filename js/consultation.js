@@ -16,9 +16,8 @@ const translations = {
     navAbout: "About Us",
     navConsultation: "Consultation",
     navContact: "Contact Us",
-    darkMode: "Dark",
-    lightMode: "White",
-    brightMode: "Bright",
+    darkModeOn: "Dark mode: On",
+    darkModeOff: "Dark mode: Off",
     languageButton: "नेपाली",
     bookConsultation: "Book Consultation",
     kicker: "Legal Help Desk",
@@ -51,9 +50,8 @@ const translations = {
     navAbout: "हाम्रो बारेमा",
     navConsultation: "परामर्श",
     navContact: "सम्पर्क",
-    darkMode: "डार्क",
-    lightMode: "सेतो",
-    brightMode: "ब्राइट",
+    darkModeOn: "डार्क मोड: अन",
+    darkModeOff: "डार्क मोड: अफ",
     languageButton: "English",
     bookConsultation: "परामर्श बुक गर्नुहोस्",
     kicker: "कानुनी सहायता डेस्क",
@@ -95,22 +93,31 @@ function applyLanguage(lang) {
   });
   document.body.dataset.lang = lang;
   localStorage.setItem("plar-language", lang);
+  updateThemeToggleText();
+}
+
+function updateThemeToggleText() {
+  const themeToggle = document.querySelector("[data-theme-toggle]");
+  if (!themeToggle) return;
+  const lang = document.body.dataset.lang || "en";
+  const key = document.body.dataset.theme === "dark" ? "darkModeOn" : "darkModeOff";
+  themeToggle.textContent = translations[lang][key];
 }
 
 function applyTheme(theme) {
-  document.body.dataset.theme = theme;
-  document.querySelectorAll("[data-theme-choice]").forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.themeChoice === theme);
-  });
-  localStorage.setItem("plar-theme", theme);
+  const normalizedTheme = theme === "dark" ? "dark" : "light";
+  document.body.dataset.theme = normalizedTheme;
+  document.querySelector("[data-theme-toggle]")?.classList.toggle("is-active", normalizedTheme === "dark");
+  localStorage.setItem("plar-theme", normalizedTheme);
+  updateThemeToggleText();
 }
 
 document.querySelector("[data-lang-toggle]").addEventListener("click", () => {
   applyLanguage(document.body.dataset.lang === "ne" ? "en" : "ne");
 });
 
-document.querySelectorAll("[data-theme-choice]").forEach((button) => {
-  button.addEventListener("click", () => applyTheme(button.dataset.themeChoice));
+document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+  applyTheme(document.body.dataset.theme === "dark" ? "light" : "dark");
 });
 
 applyTheme(localStorage.getItem("plar-theme") || "dark");
