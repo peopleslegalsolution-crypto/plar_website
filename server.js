@@ -30,7 +30,7 @@ async function loadEnv() {
 await loadEnv();
 
 const port = Number(process.env.PORT || 8081);
-const recipientEmail = process.env.RECIPIENT_EMAIL || "peoplelegalsolution@gmail.com";
+const recipientEmail = process.env.RECIPIENT_EMAIL || "peopleslegalsolution@gmail.com";
 const lawyerName = "Gopal Datt Pandey";
 const lawyerPhone = "9851089120";
 
@@ -106,6 +106,7 @@ function sendJson(res, statusCode, payload) {
     "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Content-Type": "application/json; charset=utf-8",
+    "X-Content-Type-Options": "nosniff",
   });
   res.end(JSON.stringify(payload));
 }
@@ -224,7 +225,12 @@ async function serveStatic(req, res) {
 
   try {
     await stat(filePath);
-    res.writeHead(200, { "Content-Type": mimeTypes[extname(filePath)] || "application/octet-stream" });
+    res.writeHead(200, {
+      "Content-Type": mimeTypes[extname(filePath)] || "application/octet-stream",
+      "Cache-Control": /\.(?:png|jpe?g|webp|svg|woff2?)$/i.test(filePath) ? "public, max-age=31536000, immutable" : "public, max-age=300",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    });
     createReadStream(filePath).pipe(res);
   } catch {
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });

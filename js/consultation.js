@@ -1,4 +1,11 @@
 const apiBase = location.port === "8081" ? "" : "http://127.0.0.1:8081";
+const emailJsConfig = {
+  configured: true,
+  recipientEmail: "peopleslegalsolution@gmail.com",
+  serviceId: "service_41yd3x6",
+  templateId: "template_a9bupf8",
+  publicKey: "I_pzLgxorf_YTtj9k",
+};
 const translations = {
   en: {
     menu: "Menu",
@@ -16,7 +23,7 @@ const translations = {
     bookConsultation: "Book Consultation",
     kicker: "Legal Help Desk",
     heroTitle: "Book a legal consultation with PLAR.",
-    heroBody: "Your booking is saved in the server database and sent to peoplelegalsolution@gmail.com. For urgent matters, contact Advocate Gopal Datt Pandey at 9851089120.",
+    heroBody: "Your booking is sent to peopleslegalsolution@gmail.com. For urgent matters, contact Advocate Gopal Datt Pandey at 9851089120.",
     recommended: "Recommended Lawyer",
     fullName: "Full name",
     phone: "Phone number",
@@ -32,7 +39,8 @@ const translations = {
     recordsTitle: "Saved Records",
     recordsBody: "Recent consultation bookings saved on the server.",
     clearRecords: "Clear Local Records",
-    copyright: "Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA PANDEY - All Rights Reserved."
+    copyright: "Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA PANDEY - All Rights Reserved.",
+    developerCredit: "Developed by Niraj Pandey"
   },
   ne: {
     menu: "मेनु",
@@ -50,7 +58,7 @@ const translations = {
     bookConsultation: "परामर्श बुक गर्नुहोस्",
     kicker: "कानुनी सहायता डेस्क",
     heroTitle: "PLAR सँग कानुनी परामर्श बुक गर्नुहोस्।",
-    heroBody: "तपाईंको बुकिङ सर्भर डेटाबेसमा सुरक्षित हुन्छ र peoplelegalsolution@gmail.com मा पठाइन्छ। अत्यावश्यक विषयका लागि अधिवक्ता गोपाल दत्त पाण्डेयलाई ९८५१०८९१२० मा सम्पर्क गर्नुहोस्।",
+    heroBody: "तपाईंको बुकिङ peopleslegalsolution@gmail.com मा पठाइन्छ। अत्यावश्यक विषयका लागि अधिवक्ता गोपाल दत्त पाण्डेयलाई ९८५१०८९१२० मा सम्पर्क गर्नुहोस्।",
     recommended: "सिफारिस गरिएको वकिल",
     fullName: "पूरा नाम",
     phone: "फोन नम्बर",
@@ -66,7 +74,8 @@ const translations = {
     recordsTitle: "सुरक्षित रेकर्डहरू",
     recordsBody: "सर्भरमा सुरक्षित हालका परामर्श बुकिङहरू।",
     clearRecords: "स्थानीय रेकर्ड हटाउनुहोस्",
-    copyright: "प्रतिलिपि अधिकार (c) २०२२ अधिवक्ता गोपाल दत्त पाण्डेयसँग कानुनी समस्याको समाधान - सर्वाधिकार सुरक्षित।"
+    copyright: "प्रतिलिपि अधिकार (c) २०२२ अधिवक्ता गोपाल दत्त पाण्डेयसँग कानुनी समस्याको समाधान - सर्वाधिकार सुरक्षित।",
+    developerCredit: "Niraj Pandey द्वारा विकसित"
   }
 };
 
@@ -126,6 +135,47 @@ async function postJson(url, payload) {
   return data;
 }
 
+function appointmentDate(timing) {
+  const daysAfter = String(timing || "").startsWith("2") ? 2 : 1;
+  const date = new Date();
+  date.setDate(date.getDate() + daysAfter);
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function bookingEmailPayload(payload, appointment) {
+  return {
+    ...emailJsConfig,
+    templateParams: {
+      subject: "New PLAR consultation booking",
+      submission_type: "Consultation Booking",
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email || "Not provided",
+      case_type: payload.topic,
+      problem: payload.topic,
+      appointment,
+      lawyer_name: "Gopal Datt Pandey",
+      lawyer_phone: "9851089120",
+      message: [
+        "New consultation booking from PLAR website",
+        `Name: ${payload.name}`,
+        `Phone: ${payload.phone}`,
+        `Email: ${payload.email || "Not provided"}`,
+        `Topic: ${payload.topic}`,
+        `Preferred timing: ${payload.timing}`,
+        `Appointment date: ${appointment}`,
+        "Requested lawyer: Gopal Datt Pandey",
+        "Lawyer phone: 9851089120",
+      ].join("\n"),
+    },
+  };
+}
+
 async function sendEmailFromBrowser(emailPayload) {
   if (!emailPayload?.configured) {
     return false;
@@ -148,6 +198,15 @@ async function sendEmailFromBrowser(emailPayload) {
   return response.ok;
 }
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 async function loadRecords() {
   const holder = document.querySelector("#savedRecords");
   if (!holder) return;
@@ -165,10 +224,10 @@ async function loadRecords() {
 
     holder.innerHTML = records.map((record) => `
       <article>
-        <strong>${record.type}</strong>
-        <span>${new Date(record.createdAt).toLocaleString()}</span>
-        <p>${record.name || "Unknown"} - ${record.topic || "General"}</p>
-        ${record.appointment ? `<p>Appointment: ${record.appointment}</p>` : ""}
+        <strong>${escapeHtml(record.type)}</strong>
+        <span>${escapeHtml(new Date(record.createdAt).toLocaleString())}</span>
+        <p>${escapeHtml(record.name || "Unknown")} - ${escapeHtml(record.topic || "General")}</p>
+        ${record.appointment ? `<p>Appointment: ${escapeHtml(record.appointment)}</p>` : ""}
       </article>
     `).join("");
   } catch {
@@ -184,15 +243,22 @@ document.querySelector("#bookingForm").addEventListener("submit", async (event) 
 
   status.textContent = "Booking...";
   try {
-    const result = await postJson("/api/bookings", data);
+    let result;
+    try {
+      result = await postJson("/api/bookings", data);
+    } catch {
+      const appointment = appointmentDate(data.timing);
+      result = { appointment, email: bookingEmailPayload(data, appointment), staticOnly: true };
+    }
+
     const emailSent = await sendEmailFromBrowser(result.email);
     status.textContent = emailSent
       ? `Booked for ${result.appointment}. Email sent successfully.`
-      : `Booked for ${result.appointment}. Your request was saved successfully.`;
+      : `Booked for ${result.appointment}. Your request was received. Please call 9851089120 if you need urgent help.`;
     form.reset();
-    await loadRecords();
+    if (!result.staticOnly) await loadRecords();
   } catch (error) {
-    status.textContent = error.message;
+    status.textContent = "We could not send the booking right now. Please call 9851089120 or email peopleslegalsolution@gmail.com.";
   }
 });
 

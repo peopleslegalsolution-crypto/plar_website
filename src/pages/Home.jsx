@@ -29,7 +29,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent flex items-end p-8 md:p-12">
             <a
-              href="mailto:plarnepal@gmail.com"
+              href="mailto:peopleslegalsolution@gmail.com"
               className="bg-white text-zinc-900 px-8 py-4 rounded-full font-medium text-sm flex items-center gap-2 hover:bg-zinc-100 transition-colors"
             >
               Start Your Journey <ArrowUpRight size={16} />
@@ -156,7 +156,7 @@ export default function Home() {
                 qualified. under work with expert lawyers.
               </p>
               <a
-                href="mailto:plarnepal@gmail.com"
+                href="mailto:peopleslegalsolution@gmail.com"
                 className="uppercase px-5 md:px-7 py-2.5 md:py-3 rounded-3xl bg-zinc-900 text-base md:text-lg tracking-wider cursor-pointer text-white hover:text-zinc-900 hover:bg-white border border-zinc-900 transition duration-300 inline-block text-center"
               >
                 Find out more

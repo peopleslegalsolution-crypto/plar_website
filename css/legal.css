@@ -82,6 +82,7 @@ body {
 img {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -112,6 +113,7 @@ a {
     0 0 0 5px rgba(9, 9, 9, 0.16),
     0 22px 60px var(--shadow);
   backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
 .brand {
@@ -1417,6 +1419,7 @@ body[data-theme="light"] .menu-toggle {
   background: #090909;
   color: var(--gold);
   font: inherit;
+  font-size: 16px;
   outline: none;
 }
 
@@ -2415,9 +2418,29 @@ body[data-theme="bright"] .secondary-button:hover {
   color: var(--muted);
 }
 
+.developer-credit {
+  margin: 8px 0 0;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .footer-brand .brand-text,
 .footer-brand {
   color: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -2463,7 +2486,27 @@ body[data-theme="bright"] .secondary-button:hover {
   }
 
   .site-actions {
-    width: auto;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .site-nav {
+    top: 86px;
+    left: 14px;
+    right: 14px;
+    max-height: calc(100vh - 106px);
+    overflow-y: auto;
+  }
+
+  .segmented-control {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .mode-option {
+    min-width: 0;
+    padding-inline: 8px;
+    font-size: 12px;
   }
 
   .language-toggle {
@@ -2496,6 +2539,16 @@ body[data-theme="bright"] .secondary-button:hover {
 
   .hero-next {
     bottom: 30%;
+  }
+
+  .smart-form input,
+  .smart-form select,
+  .smart-form textarea,
+  .dark-button,
+  .primary-button,
+  .secondary-button,
+  .clear-button {
+    width: 100%;
   }
 }
 

@@ -7,6 +7,9 @@ export default function Footer() {
             Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA
             PANDEY - All Rights Reserved.
           </p>
+          <p className="mt-2 text-[10px] sm:text-xs text-zinc-900 font-semibold tracking-wide uppercase">
+            Developed by Niraj Pandey
+          </p>
         </div>
       </div>
     </footer>

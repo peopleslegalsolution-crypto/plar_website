@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Forum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/legal.css?v=21">
+  <link rel="stylesheet" href="css/legal.css?v=23">
 </head>
 <body data-theme="dark">
   <header class="site-header">
@@ -421,11 +421,11 @@
           </div>
           <div class="contact-item">
             <span data-i18n="email">Email</span>
-            <p><a href="mailto:plar@legalsolutionsnepal.com">plar@legalsolutionsnepal.com</a><br><a href="mailto:plarnepal@gmail.com">plarnepal@gmail.com</a></p>
+            <p><a href="mailto:peopleslegalsolution@gmail.com">peopleslegalsolution@gmail.com</a></p>
           </div>
           <div class="contact-actions">
-            <a class="dark-button" href="https://api.whatsapp.com/send/?phone=9779851089120&text&type=phone_number&app_absent=0" target="_blank" rel="noreferrer">WhatsApp</a>
-            <a class="dark-button blue" href="https://www.facebook.com/gopal.panday" target="_blank" rel="noreferrer">Facebook</a>
+            <a class="dark-button" href="https://api.whatsapp.com/send/?phone=9779851089120&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" aria-label="Message PLAR on WhatsApp at 9851089120">WhatsApp</a>
+            <a class="dark-button blue" href="https://www.facebook.com/gopal.panday" target="_blank" rel="noopener noreferrer">Facebook</a>
           </div>
         </div>
       </div>
@@ -439,6 +439,7 @@
         <span class="brand-text">PLAR</span>
       </a>
       <p data-i18n="copyright">Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA PANDEY - All Rights Reserved.</p>
+      <p class="developer-credit" data-i18n="developerCredit">Developed by Niraj Pandey</p>
     </div>
   </footer>
 
@@ -529,7 +530,8 @@
         address: "Carnival Restro & Meetings,<br>Bhaktithapa Sadak, Kathmandu",
         callUs: "Call Us",
         email: "Email",
-        copyright: "Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA PANDEY - All Rights Reserved."
+        copyright: "Copyright (c) 2022 SOLVING LEGAL PROBLEMS WITH ADVOCATE GOPAL DUTTA PANDEY - All Rights Reserved.",
+        developerCredit: "Developed by Niraj Pandey"
       },
       ne: {
         menu: "मेनु",
@@ -616,7 +618,8 @@
         address: "कार्निभल रेस्ट्रो एन्ड मिटिङ्स,<br>भक्तिथापा सडक, काठमाडौं",
         callUs: "फोन गर्नुहोस्",
         email: "इमेल",
-        copyright: "प्रतिलिपि अधिकार (c) २०२२ अधिवक्ता गोपाल दत्त पाण्डेयसँग कानुनी समस्याको समाधान - सर्वाधिकार सुरक्षित।"
+        copyright: "प्रतिलिपि अधिकार (c) २०२२ अधिवक्ता गोपाल दत्त पाण्डेयसँग कानुनी समस्याको समाधान - सर्वाधिकार सुरक्षित।",
+        developerCredit: "Niraj Pandey द्वारा विकसित"
       }
     };
 
@@ -700,6 +703,55 @@
     galleryTrack?.addEventListener("scroll", updateGalleryProgress, { passive: true });
     window.addEventListener("resize", updateGalleryProgress);
 
+    const emailJsConfig = {
+      configured: true,
+      recipientEmail: "peopleslegalsolution@gmail.com",
+      serviceId: "service_41yd3x6",
+      templateId: "template_a9bupf8",
+      publicKey: "I_pzLgxorf_YTtj9k"
+    };
+
+    function appointmentDate(timing) {
+      const daysAfter = String(timing || "").startsWith("2") ? 2 : 1;
+      const date = new Date();
+      date.setDate(date.getDate() + daysAfter);
+      return date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function bookingEmailPayload(payload, appointment) {
+      return {
+        ...emailJsConfig,
+        templateParams: {
+          subject: "New PLAR consultation booking",
+          submission_type: "Consultation Booking",
+          name: payload.name,
+          phone: payload.phone,
+          email: payload.email || "Not provided",
+          case_type: payload.topic,
+          problem: payload.topic,
+          appointment,
+          lawyer_name: "Gopal Datt Pandey",
+          lawyer_phone: "9851089120",
+          message: [
+            "New consultation booking from PLAR website",
+            `Name: ${payload.name}`,
+            `Phone: ${payload.phone}`,
+            `Email: ${payload.email || "Not provided"}`,
+            `Topic: ${payload.topic}`,
+            `Preferred timing: ${payload.timing}`,
+            `Appointment date: ${appointment}`,
+            "Requested lawyer: Gopal Datt Pandey",
+            "Lawyer phone: 9851089120"
+          ].join("\n")
+        }
+      };
+    }
+
     async function sendEmailFromBrowser(emailPayload) {
       if (!emailPayload?.configured) return false;
       const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
@@ -726,20 +778,27 @@
       const data = Object.fromEntries(new FormData(form));
       status.textContent = "Booking...";
       try {
-        const response = await fetch("/api/bookings", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || "Booking failed");
+        let result;
+        try {
+          const response = await fetch("/api/bookings", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+          result = await response.json();
+          if (!response.ok) throw new Error(result.message || "Booking failed");
+        } catch {
+          const appointment = appointmentDate(data.timing);
+          result = { appointment, email: bookingEmailPayload(data, appointment) };
+        }
+
         const emailSent = await sendEmailFromBrowser(result.email);
         status.textContent = emailSent
           ? `Booked for ${result.appointment}. Email sent successfully.`
-          : `Booked for ${result.appointment}. Your request was saved successfully.`;
+          : `Booked for ${result.appointment}. Your request was received. Please call 9851089120 if you need urgent help.`;
         form.reset();
       } catch (error) {
-        status.textContent = error.message;
+        status.textContent = "We could not send the booking right now. Please call 9851089120 or email peopleslegalsolution@gmail.com.";
       }
     });
 

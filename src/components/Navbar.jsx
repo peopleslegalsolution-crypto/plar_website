@@ -45,7 +45,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
             <a
-              href="mailto:plarnepal@gmail.com"
+              href="mailto:peopleslegalsolution@gmail.com"
               className="hidden md:flex bg-zinc-900 hover:bg-white hover:text-zinc-900 border border-zinc-900 text-white px-6 py-2.5 rounded-full text-md font-medium transition-all duration-300 cursor-pointer"
             >
               Book Consultation

@@ -125,34 +125,10 @@ export default function ContactSection() {
                 </p>
                 <div className="text-zinc-900 space-y-1">
                   <a
-                    href="mailto:plar@legalsolutionsnepal.com"
+                    href="mailto:peopleslegalsolution@gmail.com"
                     className="hover:text-zinc-600 transition-colors block"
                   >
-                    plar@legalsolutionsnepal.com
-                  </a>
-                  <a
-                    href="mailto:plarnepal@legalsolutionsnepal.com"
-                    className="hover:text-zinc-600 transition-colors block"
-                  >
-                    plarnepal@legalsolutionsnepal.com
-                  </a>
-                  <a
-                    href="mailto:corporate@legalsolutionsnepal.com"
-                    className="hover:text-zinc-600 transition-colors block"
-                  >
-                    corporate@legalsolutionsnepal.com
-                  </a>
-                  <a
-                    href="mailto:gopal@legalsolutionsnepal.com"
-                    className="hover:text-zinc-600 transition-colors block"
-                  >
-                    gopal@legalsolutionsnepal.com
-                  </a>
-                  <a
-                    href="mailto:plarnepal@gmail.com"
-                    className="hover:text-zinc-600 transition-colors block"
-                  >
-                    plarnepal@gmail.com
+                    peopleslegalsolution@gmail.com
                   </a>
                 </div>
               </div>
@@ -176,6 +152,7 @@ export default function ContactSection() {
           <a
             target="_blank"
             href="https://api.whatsapp.com/send/?phone=9779851089120&text&type=phone_number&app_absent=0"
+            rel="noopener noreferrer"
             className="bg-zinc-900 hover:bg-green-600 text-white rounded-3xl p-4 md:p-6 flex items-center justify-between group transition-all duration-300 flex-1"
           >
             <div className="flex items-center gap-3 md:gap-4">
@@ -191,6 +168,7 @@ export default function ContactSection() {
           <a
             target="_blank"
             href="https://www.facebook.com/gopal.panday"
+            rel="noopener noreferrer"
             className="bg-zinc-900 hover:bg-blue-600 text-white rounded-3xl p-4 md:p-6 flex items-center justify-between group transition-all duration-300 flex-1"
           >
             <div className="flex items-center gap-3 md:gap-4">
