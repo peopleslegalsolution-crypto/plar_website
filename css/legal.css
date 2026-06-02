@@ -1599,6 +1599,7 @@ body[data-lang="ne"] h1 {
   .site-actions {
     width: 100%;
     justify-content: space-between;
+    gap: 10px;
   }
 
   .section {
@@ -2532,16 +2533,14 @@ body[data-theme="bright"] .form-status {
     overflow-y: auto;
   }
 
-  .language-toggle {
-    display: none;
-  }
-
+  .language-toggle,
   .theme-toggle {
     flex: 1 1 auto;
     min-width: 0;
     padding-inline: 10px;
     font-size: 12px;
     text-align: center;
+    white-space: nowrap;
   }
 
   .brand-mark {
