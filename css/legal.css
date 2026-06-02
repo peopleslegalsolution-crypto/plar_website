@@ -2879,6 +2879,7 @@ body[data-theme="light"] .service-grid p {
 body[data-theme="light"] .primary-button,
 body[data-theme="light"] .header-cta,
 body[data-theme="light"] .dark-button,
+body[data-theme="light"] .theme-toggle,
 body[data-theme="light"] .theme-toggle.is-active {
   border-color: #c9a86a;
   background: #c9a86a;
